@@ -14,5 +14,5 @@ public class Card {
   private double balance;
   private long tid;
   private double discount;
-  private long status;
+  private int status;
 }
