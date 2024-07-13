@@ -13,7 +13,7 @@ public class SysUserLogin {
   private long uid;
   private String userName;
   private String userPassWord;
-  private long userState;
+  private int userState;
   private long rid;
 
 }

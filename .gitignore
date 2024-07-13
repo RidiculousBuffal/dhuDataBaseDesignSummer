@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+# TecentCos
+/src/main/resources/Cos.yml
+Cos.yml
