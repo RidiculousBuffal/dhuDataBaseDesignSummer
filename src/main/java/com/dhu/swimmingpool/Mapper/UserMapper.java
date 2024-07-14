@@ -4,9 +4,10 @@ import com.dhu.swimmingpool.Pojo.SysUserLogin;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-
+@Transactional
 @Mapper
 public interface UserMapper {
     @Insert("insert into sys_user_login(UserName, UserPassWord, UserState, RID) VALUES (" +

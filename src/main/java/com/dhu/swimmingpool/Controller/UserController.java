@@ -1,7 +1,9 @@
 package com.dhu.swimmingpool.Controller;
 
 import com.dhu.swimmingpool.Pojo.Result;
+import com.dhu.swimmingpool.Pojo.SysUserLogin;
 import com.dhu.swimmingpool.Service.UserService;
+import com.dhu.swimmingpool.Util.JwtUtil;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,4 +26,20 @@ public class UserController {
             return Result.error("注册失败");
         }
     }
+
+    @PostMapping("/login")
+    public Result login(@RequestParam(required = true, value = "username") String username,
+                        @RequestParam(required = true, value = "password") String password) {
+        SysUserLogin login = userService.login(username, password);
+        if (login != null) {
+            if (login.getUserState() != 1) {
+                return Result.error("该账号已被停用");
+            } else {
+                return Result.success(JwtUtil.createToken(login));
+            }
+        } else {
+            return Result.error("用户名或密码错误");
+        }
+    }
+
 }

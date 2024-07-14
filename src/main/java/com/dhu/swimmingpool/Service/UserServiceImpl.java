@@ -32,4 +32,19 @@ public class UserServiceImpl implements UserService {
             return false;
         }
     }
+
+    @Override
+    public SysUserLogin login(String username, String password) {
+        //找到指定用户
+        SysUserLogin usersByUsername = userMapper.getUsersByUsername(username);
+        if(usersByUsername == null){
+            return null;
+        }else{
+            if(usersByUsername.getUserPassWord().equals(DigestUtil.md5Hex(password))){
+                return usersByUsername;
+            }else{
+                return null;
+            }
+        }
+    }
 }
