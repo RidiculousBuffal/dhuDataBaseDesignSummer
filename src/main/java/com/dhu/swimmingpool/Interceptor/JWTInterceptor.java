@@ -18,7 +18,7 @@ public class JWTInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader("Authorization");
         response.setCharacterEncoding("utf8");
-        request.setCharacterEncoding("uft8");
+        request.setCharacterEncoding("utf8");
         //检查JWT是否有效以及过期
         if(JwtUtil.verifyToken(token).getCode()==0 && JwtUtil.validatedate(token).getCode()==0){
             ThreadUtil.THREAD_LOCAL_set(JwtUtil.getPayLoad(token));
