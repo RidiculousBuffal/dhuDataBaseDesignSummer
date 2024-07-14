@@ -13,4 +13,5 @@ public class TecentConfig {
     private String SecretKey;
     private String SecretId;
     private String Region;
+    private String FilePath;
 }
