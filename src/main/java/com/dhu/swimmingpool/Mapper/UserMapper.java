@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Select;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Map;
+
 @Transactional
 @Mapper
 public interface UserMapper {
@@ -21,4 +23,24 @@ public interface UserMapper {
     @Insert("insert into user (UID,UNAME) values (#{uid},#{name})")
     boolean insertBasicInfo(Long uid, String name);
 
+    @Select("select sys_user_login.UID      as UID,\n" +
+        "       sys_user_login.UserName as UserName,\n" +
+        "       UserState               as UserState,\n" +
+        "       sys_user_login.RID\n" +
+        "                               as UROLEID,\n" +
+        "       UNAME                   as NickName,\n" +
+        "       UPHONE                  as UPHONE,\n" +
+        "       UIDENTITY               as UIdentity,\n" +
+        "       UAVATAR                 as UAvatar,\n" +
+        "       UDescription            as\n" +
+        "                                  UDescripton,\n" +
+        "       Description             as RDescription,\n" +
+        "       CreateTime\n" +
+        "from sys_user_login,\n" +
+        "     user,\n" +
+        "     role\n" +
+        "where role.RID = sys_user_login.RID\n" +
+        "  and user.UID = sys_user_login.UID" +
+        "  and user.UID = #{Uid}")
+    Map<String,Object> getUserInfoById(Long Uid);
 }

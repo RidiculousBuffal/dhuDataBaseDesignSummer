@@ -1,10 +1,14 @@
 package com.dhu.swimmingpool.Service;
 
 import com.dhu.swimmingpool.Mapper.UserMapper;
+import com.dhu.swimmingpool.Pojo.Result;
 import com.dhu.swimmingpool.Pojo.SysUserLogin;
+import com.dhu.swimmingpool.Util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cn.hutool.crypto.digest.DigestUtil;
+
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -37,14 +41,26 @@ public class UserServiceImpl implements UserService {
     public SysUserLogin login(String username, String password) {
         //找到指定用户
         SysUserLogin usersByUsername = userMapper.getUsersByUsername(username);
-        if(usersByUsername == null){
+        if (usersByUsername == null) {
             return null;
-        }else{
-            if(usersByUsername.getUserPassWord().equals(DigestUtil.md5Hex(password))){
+        } else {
+            if (usersByUsername.getUserPassWord().equals(DigestUtil.md5Hex(password))) {
                 return usersByUsername;
-            }else{
+            } else {
                 return null;
             }
+        }
+    }
+
+    @Override
+    public Map<String, Object> getUserInfo(String token) {
+        Result payLoad = JwtUtil.getPayLoad(token);
+        if (payLoad.getCode() == 1) {
+            return null;
+        } else {
+            Map<String, Object> data = (Map<String, Object>) payLoad.getData();
+            Long uid = (Long) data.get("uid");
+            return userMapper.getUserInfoById(uid);
         }
     }
 }
