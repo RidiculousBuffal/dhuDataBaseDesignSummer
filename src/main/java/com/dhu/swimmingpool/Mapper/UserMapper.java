@@ -43,4 +43,8 @@ public interface UserMapper {
         "  and user.UID = sys_user_login.UID" +
         "  and user.UID = #{Uid}")
     Map<String,Object> getUserInfoById(Long Uid);
+
+    @Select("select * from role_auth,auth where role_auth.AID = auth.AID and role_auth.RID = " +
+        "#{rid}")
+    ArrayList<Map<String,Object>>getRolePath(Long rid);
 }

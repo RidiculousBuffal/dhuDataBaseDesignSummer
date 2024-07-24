@@ -16,6 +16,9 @@ import java.util.Map;
 public class JWTInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        StringBuffer requestURL = request.getRequestURL();
+        System.out.println(requestURL);
+        System.out.println("hello");
         String token = request.getHeader("Authorization");
         response.setCharacterEncoding("utf8");
         request.setCharacterEncoding("utf8");

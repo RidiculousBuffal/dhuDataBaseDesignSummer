@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cn.hutool.crypto.digest.DigestUtil;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 @Service
@@ -62,5 +63,10 @@ public class UserServiceImpl implements UserService {
             Long uid = (Long) data.get("uid");
             return userMapper.getUserInfoById(uid);
         }
+    }
+
+    @Override
+    public ArrayList<Map<String, Object>> getPath(Long rid) {
+        return userMapper.getRolePath(rid);
     }
 }

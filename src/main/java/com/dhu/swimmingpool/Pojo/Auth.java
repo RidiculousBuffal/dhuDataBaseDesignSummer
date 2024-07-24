@@ -9,5 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Auth {
   private long aid;
-  private String aDescription;
+  private String title;
+  private Integer PID;
+  private String path;
+  private String componentName;
+  private String type;
 }

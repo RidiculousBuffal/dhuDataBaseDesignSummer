@@ -21,7 +21,7 @@ public class JWTtokenTest {
     @Test
     public void testToken() {
         SysUserLogin sysUserLogin = new SysUserLogin(
-            1, "zlc", "123456", true, 1
+            1, "zlc", "123456", 1, 1
         );
         System.out.println(createToken(sysUserLogin));
     }

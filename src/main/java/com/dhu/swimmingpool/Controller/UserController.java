@@ -7,6 +7,11 @@ import com.dhu.swimmingpool.Util.JwtUtil;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import com.dhu.swimmingpool.Util.ThreadUtil;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -28,9 +33,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public Result login(@RequestParam(required = true, value = "username") String username,
-                        @RequestParam(required = true, value = "password") String password) {
-        SysUserLogin login = userService.login(username, password);
+    public Result login(@RequestBody Map<String, String> params) {
+        SysUserLogin login = userService.login(params.get("username"), params.get("password"));
         if (login != null) {
             if (login.getUserState() != 1) {
                 return Result.error("该账号已被停用");
@@ -42,4 +46,19 @@ public class UserController {
         }
     }
 
+    @PostMapping("/path")
+    public Result getPath() {
+        Result payLoad = ThreadUtil.Thread_Local_get();
+        Map<String, Object> data = (Map<String, Object>) payLoad.getData();
+        System.out.println(data);
+        Long rid = Long.parseLong(data.get("rid").toString());
+        System.out.println("rid:"+rid);
+
+        Map<String, Object> res = new HashMap<>();
+        res.put("rid", rid);
+        ArrayList<Map<String, Object>> path =userService.getPath(rid);
+        res.put("path", path);
+        System.out.println(res);
+        return Result.success(res);
+    }
 }
