@@ -1,16 +1,25 @@
 <script setup>
 import {ref, reactive} from "vue";
+import {userLogin, getUserPath} from "@/api/User.js";
+import {register} from "@/api/User.js";
+import {ElNotification} from "element-plus";
+import {userTokenStore} from "@/store/userToken.js";
+import {convert_route} from "@/utils/route_convert.js";
+import {useRouter} from "vue-router";
+import {RouterTokenStore} from "@/store/RouterToken.js";
+import Layout from "@/view/Layout.vue";
+import Test from "@/component/public/Hello.vue";
 
-const register = ref(false)
-
-
+const router_token_store = RouterTokenStore();
+const register_ = ref(false)
+const my_router = useRouter();
 const registerData = ref({
   username: '',
   password: '',
   confirmPassword: ''
 });
 const goReg = () => {
-  register.value = true
+  register_.value = true
 }
 const registerRules = {
   username: [
@@ -47,10 +56,92 @@ function submitForm() {
   });
 }
 
-function registerUser() {
-  register.value = false
+function getAllCurrentRoutes() {
+  const currRoutes = my_router.getRoutes();
+  // console.log(currRoutes)
+  currRoutes.forEach(x => console.log(x))
 }
 
+getAllCurrentRoutes()
+
+function removeOtherRoutes() {
+  const currRoutes = my_router.getRoutes();
+  currRoutes.forEach(x => {
+    if (x.name !== 'Login' && x.name !== 'Layout') {
+      my_router.removeRoute(x.name)
+      console.log(x.name)
+    }
+  })
+}
+
+//每次移除多余的路由
+removeOtherRoutes()
+
+async function registerUser() {
+  const data = await register(registerData.value.username, registerData.value.password)
+  if (data.code === 0) {
+    ElNotification({
+      title: 'Success',
+      message: '注册成功',
+      type: 'success',
+    })
+    register_.value = false
+  } else {
+    ElNotification({
+      title: 'Error',
+      message: '注册失败',
+      type: 'error',
+    })
+  }
+  for (var key in registerData.value) {
+    registerData.value[key] = ''
+  }
+}
+
+const login = async () => {
+  const data = await userLogin(registerData.value.username, registerData.value.password)
+  if (data.code === 0) {
+    ElNotification({
+      'title': 'Success',
+      'message': 'Login Success',
+      'type': 'success'
+    })
+    const tmpStore = userTokenStore()
+    tmpStore.removeToken()
+    console.log(data.data)
+    tmpStore.setToken(data.data)
+    console.log(tmpStore.token)
+    //设置路由
+    const path_data = await getUserPath();
+    const path = path_data.data.path;
+    console.log(path)
+    var converted = []
+    router_token_store.removeToken();
+    converted = await convert_route(path, 0);
+    router_token_store.setToken(converted)
+    console.log(converted)
+    removeOtherRoutes();
+    my_router.addRoute(
+        {
+          'path': '/layout',
+          component: Layout,
+          name: 'Layout',
+          children: converted
+        })
+    console.log("add Routes successfully")
+    console.log(my_router.getRoutes())
+    await my_router.push('/layout')
+  } else {
+    ElNotification({
+      'title': 'Error',
+      'message': data.message,
+      'type': 'success'
+    })
+  }
+  for (var key in registerData.value) {
+    registerData.value[key] = ''
+  }
+}
 const registerForm = ref(null);
 
 </script>
@@ -67,7 +158,7 @@ const registerForm = ref(null);
         <h1>Welcome To DHU SWIMMING POOL</h1>
       </div>
       <Transition name="slide-fade">
-        <div class="login-form" v-show="!register">
+        <div class="login-form" v-show="!register_">
           <el-row width="450px">
             <el-col :span="7">
               <p style="font-size: 25px;font-weight: bolder;margin-left: 40px;text-align: right">用户名:</p>
@@ -87,16 +178,17 @@ const registerForm = ref(null);
             </el-col>
           </el-row>
           <el-row style="width:500px;display: flex;justify-content: center;margin-top: 40px">
-            <el-button type="primary" style="font-size: 25px;height: 40px;font-family: 'CMU Typewriter Text'">Login
+            <el-button type="primary" style="font-size: 25px;height: 40px;font-family: 'CMU Typewriter Text'"
+                       @click="login()">Login
             </el-button>
           </el-row>
           <el-row style="width:500px;display: flex;justify-content: flex-end;margin-top: 55px;">
-            <el-link style="font-size: 15px;margin-right: 10px" @click="register=true">No Account? Register!</el-link>
+            <el-link style="font-size: 15px;margin-right: 10px" @click="register_=true">No Account? Register!</el-link>
           </el-row>
         </div>
       </Transition>
       <Transition name="slide-fade">
-        <div class="register" v-show="register">
+        <div class="register" v-show="register_">
           <el-form ref="registerForm" :model="registerData" :rules="registerRules" label-width="120px">
             <el-form-item label="用户名" prop="username" style="font-weight: bolder;font-size: 30px;margin-top: 20px">
               <el-input style="width: 200px;" v-model="registerData.username"></el-input>
@@ -114,7 +206,7 @@ const registerForm = ref(null);
             </el-form-item>
           </el-form>
           <el-row style="width:500px;display: flex;justify-content: flex-end;margin-top: 40px;">
-            <el-link style="font-size: 15px;margin-right: 10px" @click="register=false">Has Account? Login!</el-link>
+            <el-link style="font-size: 15px;margin-right: 10px" @click="register_=false">Has Account? Login!</el-link>
           </el-row>
         </div>
       </Transition>
@@ -139,6 +231,7 @@ const registerForm = ref(null);
   width: 500px;
   margin: auto;
   flex-direction: column;
+  border-radius: 20px;
 }
 
 .title {
@@ -236,7 +329,7 @@ const registerForm = ref(null);
 }
 
 
-.slide-fade-enter-from{
+.slide-fade-enter-from {
   transform: translateX(20px);
   opacity: 0;
 }
