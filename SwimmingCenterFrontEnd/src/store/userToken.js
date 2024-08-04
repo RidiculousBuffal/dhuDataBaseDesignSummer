@@ -11,5 +11,7 @@ export const userTokenStore = defineStore(
             token.value = ''
         }
         return {token, setToken, removeToken}
+    },{
+        persist:true
     }
 )

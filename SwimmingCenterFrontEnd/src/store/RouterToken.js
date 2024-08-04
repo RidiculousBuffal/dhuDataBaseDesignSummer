@@ -14,5 +14,7 @@ export const RouterTokenStore = defineStore(
             return MyRoutes.value
         }
         return {MyRoutes, setToken, removeToken, getToken}
+    },{
+        persist:true
     }
 )

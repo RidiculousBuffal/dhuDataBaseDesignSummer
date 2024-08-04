@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dhu.swimmingpool.Mapper.CardMapper">
+    <select id="getCardInfo" resultType="Map">
+        select
+        card.Balance,
+        card.Status,
+        card.Discount,
+        sys_user_login.UID,
+        user.UNAME,
+        card.CID,
+        card.TID,
+        card_type.TDescription
+        from card,
+        card_type,
+        user,
+        sys_user_login
+        where card.UID = sys_user_login.UID
+        and sys_user_login.UID =
+        user.UID
+        and card.TID
+        = card_type.TID
+        <if test="uid!=null">
+            and sys_user_login.UID = #{uid}
+        </if>
+        <if test="cid!=null">
+            and card.CID = #{cid}
+        </if>
+    </select>
+</mapper>
