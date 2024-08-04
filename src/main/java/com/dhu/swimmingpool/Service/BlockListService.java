@@ -1,2 +1,5 @@
-package com.dhu.swimmingpool.Service;public class BlockListService {
+package com.dhu.swimmingpool.Service;
+
+public interface BlockListService {
+    public void updateBlockedCardsStatus();
 }

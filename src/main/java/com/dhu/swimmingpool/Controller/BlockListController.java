@@ -1,2 +1,4 @@
-package com.dhu.swimmingpool.Controller;public class BlockListController {
+package com.dhu.swimmingpool.Controller;
+
+public class BlockListController {
 }

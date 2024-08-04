@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 
 public class Consume {
-
+  private long id;
   private long uid;
   private String cid;
+  private double currentBalance;
+  private String description;
   private double consumeSaveBalance;
-  private double balance;
   private java.sql.Timestamp createTime;
-
 }

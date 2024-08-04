@@ -14,5 +14,5 @@ public class Card {
   private double balance;
   private long tid;
   private double discount;
-  private int status;
+  private int status;//1 正常使用,2 被封禁，3 被退卡 4. 被挂失
 }

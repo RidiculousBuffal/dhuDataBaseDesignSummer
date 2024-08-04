@@ -3,6 +3,7 @@ package com.dhu.swimmingpool.Service;
 import com.dhu.swimmingpool.Mapper.UserMapper;
 import com.dhu.swimmingpool.Pojo.Result;
 import com.dhu.swimmingpool.Pojo.SysUserLogin;
+import com.dhu.swimmingpool.Pojo.User;
 import com.dhu.swimmingpool.Util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,20 +54,50 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
+
     @Override
-    public Map<String, Object> getUserInfo(String token) {
-        Result payLoad = JwtUtil.getPayLoad(token);
-        if (payLoad.getCode() == 1) {
-            return null;
-        } else {
-            Map<String, Object> data = (Map<String, Object>) payLoad.getData();
-            Long uid = (Long) data.get("uid");
-            return userMapper.getUserInfoById(uid);
-        }
+    public Map<String, Object> getUserInfo(Long uid) {
+        return userMapper.getUserInfoById(uid);
+    }
+
+    @Override
+    public Long getIdByUserName(String username) {
+        return userMapper.getIdByUserName(username);
     }
 
     @Override
     public ArrayList<Map<String, Object>> getPath(Long rid) {
         return userMapper.getRolePath(rid);
+    }
+
+    @Override
+    public boolean updateUserRole(Long rid,Long uid) {
+       return userMapper.setRole(rid,uid);
+    }
+
+    @Override
+    public boolean updateUserInfo(User user) {
+        return userMapper.updateUserInfo(user);
+    }
+
+    @Override
+    public Long getUserNumber() {
+        return userMapper.getUserNumber();
+    }
+
+    @Override
+    public Long getMemberNumber() {
+        return userMapper.getMemberNumber();
+    }
+
+    @Override
+    public ArrayList<String> matchUsername(String prefix) {
+        return userMapper.matchUserName(prefix);
+    }
+
+    @Override
+    public Map<String, Object> getSomeUserInfoByUsername(String username) {
+        return userMapper.getSomeInfoByUsername(username);
     }
 }

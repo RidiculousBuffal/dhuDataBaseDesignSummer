@@ -29,4 +29,39 @@
             and card.CID = #{cid}
         </if>
     </select>
+    <select id="getCardsInfoWithPageHelper" resultType="Map">
+        SELECT
+        card.Balance,
+        card.Status,
+        card.Discount,
+        sys_user_login.UID,
+        user.UNAME,
+        card.CID,
+        card.TID,
+        card_type.TDescription,
+        sys_user_login.UserName
+        FROM
+        card,
+        card_type,
+        user,
+        sys_user_login
+        WHERE
+        card.UID = sys_user_login.UID
+        AND sys_user_login.UID = user.UID
+        AND card.TID = card_type.TID
+        <!-- Additional dynamic filters -->
+        <if test="Cid != null and Cid != '' ">
+            AND card.CID = #{Cid}
+        </if>
+        <if test="Username != null and Username!=''">
+            AND sys_user_login.UserName = #{Username}
+        </if>
+        <if test="tids != null and tids.size() > 0">
+            AND (
+            <foreach collection="tids" item="tid" separator=" OR ">
+                card.TID = #{tid}
+            </foreach>
+            )
+        </if>
+    </select>
 </mapper>

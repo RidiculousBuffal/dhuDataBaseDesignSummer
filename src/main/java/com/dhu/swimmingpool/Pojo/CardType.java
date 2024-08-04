@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 
 public class CardType {
 
-  private long tid;
+  private long tid;//1.储值卡 2.折扣卡
   private String tDescription;
 }
