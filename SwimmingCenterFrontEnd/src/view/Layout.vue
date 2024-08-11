@@ -29,7 +29,8 @@ _getUserOwnInfo();//首次进入页面调用一次
     <el-container>
       <el-header style="width: 100%;height: 60px;padding:0;display: flex;align-items: center;justify-content:
       space-around ; border-bottom: 1px dashed black ; background-color: aliceblue">
-        <el-button type="primary" size="large" style="margin-right: auto;">Login Out</el-button>
+        <el-button type="primary" size="large" style="margin-right: auto;"
+                   @click="  router.push({ path: '/' });">Login Out</el-button>
         <h1 style="font-family: 'CMU Typewriter Text';">Welcome To DHU Swimming Center {{userInfo.UROLEID === 1 ? "ADMIN Panel" : "UserPanel"}}</h1>
           <img style="border-radius: 50%;width: 60px;height: 60px;margin-left: auto" :src="userInfo.UAvatar"/>
       </el-header>
