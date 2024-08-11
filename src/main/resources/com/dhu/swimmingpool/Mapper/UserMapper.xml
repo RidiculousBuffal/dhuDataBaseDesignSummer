@@ -5,22 +5,51 @@
 <mapper namespace="com.dhu.swimmingpool.Mapper.UserMapper">
     <update id="updateUserInfo">
         update user
-        <if test="uname!=null">
+        <if test="uname!=null and uname!=''">
             set uname = #{uname}
         </if>
-        <if test="uphone!=null">
+        <if test="uphone!=null and uphone!=''">
             ,UPHONE=#{uphone}
         </if>
-        <if test="uidentity!=null">
+        <if test="uidentity!=null and uidentity!=''">
             ,UIDENTITY=#{uidentity}
         </if>
-        <if test="uavatar!=null">
+        <if test="uavatar!=null and uavatar!=''">
             ,UAVATAR=#{uavatar}
         </if>
-        <if test="uDescription!=null">
+        <if test="uDescription!=null and uDescription!=''">
             ,UDescription=#{uDescription}
         </if>
         where UID = #{uid}
     </update>
-
+    <select id="queryUserInfo" resultType="Map">
+        select sys_user_login.UserName,
+               sys_user_login.RID,
+               sys_user_login.UserState,
+               sys_user_login.UID,
+               user.UNAME,
+               user.UPHONE,
+               user.UIDENTITY,
+               user.UAVATAR,
+               user.UDescription,
+               role.Description
+        from sys_user_login,
+             user,
+             role
+        where sys_user_login.UID = user.UID
+          and sys_user_login.RID = role.RID
+        <if test="username != null and username != ''">
+            and sys_user_login.UserName = #{username}
+        </if>
+        <if test="UName != null and UName != ''">
+            and user.UNAME = #{UName}
+        </if>
+        <if test="rid != null">
+            and sys_user_login.RID = #{rid}
+        </if>
+        <if test="state != null">
+            and sys_user_login.UserState = #{state}
+        </if>
+        order by sys_user_login.UID
+    </select>
 </mapper>

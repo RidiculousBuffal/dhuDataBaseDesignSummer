@@ -43,12 +43,26 @@ public class UserInfoController {
 
     @PostMapping("/updateUserInfo")
     public Result updateUserInfo(@RequestBody User user) {
+        System.out.println(user);
         boolean res = userService.updateUserInfo(user);
         if (res) {
             return Result.success();
         } else {
             return Result.error("更新失败");
         }
+    }
+
+    @PostMapping("/AdminQueryUser")
+    public Result queryUser(@RequestParam(required = true) int PageNum,
+                            @RequestParam(required = true) int PageSize,
+                            @RequestParam(required = false) String username,
+                            @RequestParam(required = false) String uname,
+                            @RequestParam(required = false) Long rid,
+                            @RequestParam(required = false) Integer state
+    ) {
+
+        return Result.success(userService.queryUserInfo(PageNum, PageSize, username, uname, rid,
+            state));
     }
 
     @PostMapping("/getUserCount")
@@ -60,12 +74,18 @@ public class UserInfoController {
     public Result getMemberCount() {
         return Result.success(userService.getMemberNumber());
     }
+
     @PostMapping("/matchUsername")
-    public Result matchUserNameWithPrefix(String prefix){
+    public Result matchUserNameWithPrefix(String prefix) {
         return Result.success(userService.matchUsername(prefix));
     }
+
     @PostMapping("/getSomeUserInfoByUsername")
-    public Result getSomeUserInfoByUsername (String username){
+    public Result getSomeUserInfoByUsername(String username) {
         return Result.success(userService.getSomeUserInfoByUsername(username));
+    }
+    @PostMapping("/getUNameByPrefix")
+    public Result getUNameByPrefix (@RequestParam String prefix){
+        return Result.success(userService.getUNamebyPrefix(prefix));
     }
 }

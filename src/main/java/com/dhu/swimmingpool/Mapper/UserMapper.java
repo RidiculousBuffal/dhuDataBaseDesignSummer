@@ -61,6 +61,7 @@ public interface UserMapper {
 
     @Select("select count(*) from sys_user_login where RID=3 or RID = 4")
     public Long getUserNumber();
+
     @Select("select count(*) from sys_user_login where RID = 4")
     public Long getMemberNumber();
 
@@ -70,5 +71,27 @@ public interface UserMapper {
 
     @Select("select user.UID,user.UNAME,user.UPHONE,user.UIDENTITY FROM user,sys_user_login WHERE" +
         " USER.UID = sys_user_login.UID AND sys_user_login.UserName = #{username}")
-    public  Map<String,Object> getSomeInfoByUsername(String username);
+    public Map<String, Object> getSomeInfoByUsername(String username);
+
+    public ArrayList<Map<String, Object>> queryUserInfo(String username, String UName, Long rid,
+                                                        Integer state);
+
+    @Update("UPDATE sys_user_login SET UserState = 0 WHERE UID = #{uid}")
+    public boolean blockUser(Long uid);
+
+    @Update("UPDATE sys_user_login SET UserState = 1 WHERE UID = #{uid}")
+    public boolean unblockUser(Long uid);
+
+    @Select("select user.UName from user where user.UNAME like CONCAT" +
+        "(#{prefix},'%') limit 5")
+    public ArrayList<String> getUNamebyPrefix(String prefix);
+
+    @Update("update sys_user_login set UserPassWord = #{md5password} where UID = #{uid}")
+    public boolean resetPassword(String md5password, Long uid);
+
+    @Select("select * from sys_user_login where UID = #{uid}")
+    public SysUserLogin getSYSUserLoginByUserID(Long uid);
+
+    @Select("select * from sys_user_login where UserState = 0")
+    public ArrayList<Map<String,Object>> getBlockedUser();
 }

@@ -18,4 +18,12 @@ public interface UserService {
     public Long getMemberNumber();
     public ArrayList<String> matchUsername(String prefix);
     public Map<String,Object> getSomeUserInfoByUsername(String username);
+    public Map<String,Object> queryUserInfo (int pageNum,int PageSize,String username,
+                                             String UName,Long rid,Integer state);
+    public boolean blockUser (Long uid);
+    public ArrayList<String> getUNamebyPrefix(String prefix);
+    public boolean resetPassword (String password,Long uid);
+    public SysUserLogin get_SYS_USER_LOGIN_by_id (Long uid);
+    public boolean unblockUser (Long uid);
+    public ArrayList<Map<String,Object>> getBlockedUser();
 }

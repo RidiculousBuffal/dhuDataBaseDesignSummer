@@ -5,11 +5,14 @@ import com.dhu.swimmingpool.Pojo.Result;
 import com.dhu.swimmingpool.Pojo.SysUserLogin;
 import com.dhu.swimmingpool.Pojo.User;
 import com.dhu.swimmingpool.Util.JwtUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cn.hutool.crypto.digest.DigestUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -55,7 +58,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
     @Override
     public Map<String, Object> getUserInfo(Long uid) {
         return userMapper.getUserInfoById(uid);
@@ -72,8 +74,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateUserRole(Long rid,Long uid) {
-       return userMapper.setRole(rid,uid);
+    public boolean updateUserRole(Long rid, Long uid) {
+        return userMapper.setRole(rid, uid);
     }
 
     @Override
@@ -99,5 +101,48 @@ public class UserServiceImpl implements UserService {
     @Override
     public Map<String, Object> getSomeUserInfoByUsername(String username) {
         return userMapper.getSomeInfoByUsername(username);
+    }
+
+    @Override
+    public Map<String, Object> queryUserInfo(int pageNum, int PageSize, String username,
+                                             String UName, Long rid,Integer state) {
+        PageHelper.startPage(pageNum, PageSize);
+        ArrayList<Map<String, Object>> queryUserInfo =
+            userMapper.queryUserInfo(username, UName, rid,state);
+        PageInfo page = new PageInfo(queryUserInfo);
+        Map<String, Object> RES = new HashMap<String, Object>();
+        RES.put("arr", queryUserInfo);
+        RES.put("total", page.getTotal());
+        return RES;
+    }
+
+    @Override
+    public boolean blockUser(Long uid) {
+        return userMapper.blockUser(uid);
+    }
+
+    @Override
+    public ArrayList<String> getUNamebyPrefix(String prefix) {
+        return userMapper.getUNamebyPrefix(prefix);
+    }
+
+    @Override
+    public boolean resetPassword(String password,Long uid) {
+        return userMapper.resetPassword(DigestUtil.md5Hex(password),uid);
+    }
+
+    @Override
+    public SysUserLogin get_SYS_USER_LOGIN_by_id(Long uid) {
+        return userMapper.getSYSUserLoginByUserID(uid);
+    }
+
+    @Override
+    public boolean unblockUser(Long uid) {
+        return userMapper.unblockUser(uid);
+    }
+
+    @Override
+    public ArrayList<Map<String, Object>> getBlockedUser() {
+        return userMapper.getBlockedUser();
     }
 }

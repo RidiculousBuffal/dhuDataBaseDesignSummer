@@ -63,17 +63,17 @@ export const getUserIdByUsername = async (username) => {
     })
     return resp;
 }
-export const updateUserInfo = async (data)=>{
+export const updateUserInfo = async (data) => {
     const tmpStore = userTokenStore();
-    const resp = await ins.post("/userInfo/updateUserInfo",data,{
-        headers:{
-            Authorization:tmpStore.token,
-            "Content-Type":"application/json"
+    const resp = await ins.post("/userInfo/updateUserInfo", data, {
+        headers: {
+            Authorization: tmpStore.token,
+            "Content-Type": "application/json"
         }
     })
     return resp;
 }
-export const matchUserNameByPrefix = async(prefix)=>{
+export const matchUserNameByPrefix = async (prefix) => {
     const tmpStore = userTokenStore();
     const url = `/userInfo/matchUsername?prefix=${prefix}`
     const resp = await ins.post(url, null, {
@@ -83,8 +83,79 @@ export const matchUserNameByPrefix = async(prefix)=>{
     })
     return resp;
 }
-export const getOldUserInfo = async (username)=>{
+export const getOldUserInfo = async (username) => {
     const url = `/userInfo/getSomeUserInfoByUsername?username=${username}`
+    const tmpStore = userTokenStore();
+    const resp = await ins.post(url, null, {
+        headers: {
+            Authorization: tmpStore.token
+        }
+    })
+    return resp;
+}
+export const getUNameByPrefix = async (prefix) => {
+    const url = `/userInfo/getUNameByPrefix?prefix=${prefix}`
+    const tmpStore = userTokenStore();
+    const resp = await ins.post(url, null, {
+        headers: {
+            Authorization: tmpStore.token
+        }
+    })
+    return resp;
+}
+export const adminQueryUserInfo = async (url) => {
+    const tmpStore = userTokenStore();
+    const resp = await ins.post(url, null, {
+        headers: {
+            Authorization: tmpStore.token
+        }
+    })
+    return resp;
+}
+export const AdminAddUser = async (username, password, rid) => {
+    const url = `/user/AdminAddUser?username=${username}&password=${password}&rid=${rid}`
+    const tmpStore = userTokenStore();
+    const resp = await ins.post(url, null, {
+        headers: {
+            Authorization: tmpStore.token
+        }
+    })
+    return resp;
+
+}
+export const updateUserRole = async (rid, uid) => {
+    const url = `/user/updateUserRole?rid=${rid}&uid=${uid}`
+    const tmpStore = userTokenStore();
+    const resp = await ins.post(url, null, {
+        headers: {
+            Authorization: tmpStore.token
+        }
+    })
+    return resp;
+
+}
+export const updateUserState = async (state, uid) => {
+    const url = `/user/updateUserState?state=${state}&uid=${uid}`
+    const tmpStore = userTokenStore();
+    const resp = await ins.post(url, null, {
+        headers: {
+            Authorization: tmpStore.token
+        }
+    })
+    return resp;
+}
+export const getBlockedUser = async () => {
+    const url = '/user/getBlockedUsers';
+    const tmpStore = userTokenStore();
+    const resp = await ins.post(url, null, {
+        headers: {
+            Authorization: tmpStore.token
+        }
+    })
+    return resp;
+}
+export const userResetPassword = async (_old, _new, _uid) => {
+    const url = `/user/userResetPassword?oldPassword=${_old}&newPassword=${_new}&uid=${_uid}`
     const tmpStore = userTokenStore();
     const resp = await ins.post(url, null, {
         headers: {
