@@ -49,12 +49,13 @@ const uploadSuccess = async (result) => {
   }
 }
 const submit = async () => {
+  console.log(UserData)
   const data_ = JSON.stringify({
-    "uid": userData.value.UID,
-    "uname": userData.value.UNAME,
-    "uphone": userData.value.UPHONE,
-    "uidentity": userData.value.UIDENTITY,
-    "udescription": userData.value.UDescription
+    "uid": UserData.UID,
+    "uname": UserData.NickName,
+    "uphone": UserData.UPHONE,
+    "uidentity": UserData.UIdentity,
+    "udescription": UserData.UDescripton
   })
   const res_update = await updateUserInfo(data_);
   if (res_update.code === 0) {
@@ -63,9 +64,6 @@ const submit = async () => {
       message: '用户信息更新成功!',
       type: 'success',
     })
-    querySearch()
-    dialogVisible.value = false;
-    isEditing.value = false;
   } else {
     ElNotification({
       title: 'Error',
