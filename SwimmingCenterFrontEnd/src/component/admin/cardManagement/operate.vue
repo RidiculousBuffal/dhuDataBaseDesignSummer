@@ -2,7 +2,7 @@
 import {ref, reactive} from 'vue'
 import {ElForm, ElFormItem, ElRadioGroup, ElRadioButton, ElInput, ElButton, ElNotification} from 'element-plus';
 import {getOldUserInfo, getUserIdByUsername, matchUserNameByPrefix, register, updateUserInfo} from "@/api/User.js";
-import success from '@/../public/success.svg'
+import success from '../../../../public/success.svg'
 import {addMoney, BlockCard, makeCard, setStatus, updateTidAndDiscount} from "@/api/Card.js";
 import {h} from 'vue';
 import {ElTag} from "element-plus";
@@ -66,6 +66,13 @@ const registerRules = {
   ]
 };
 
+function validateConfirmPassword(rule, value, callback) {
+  if (value !== registerData.value.password) {
+    callback(new Error('两次密码输入不一致'));
+  } else {
+    callback();
+  }
+}
 
 const isActive = ref(1); // 默认激活 Box 1
 const NewUserAddCard = ref(true)
