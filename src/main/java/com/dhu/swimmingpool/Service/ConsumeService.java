@@ -8,7 +8,8 @@ import java.util.Map;
 public interface ConsumeService {
     public boolean addConsumeRecord(Consume consume);
 
-    public ArrayList<Map<String, Object>> getConsumeInfo(int pageNum, int PageSize, Long uid, String startTime,
-                                                         String endTime, String cid);
+    public Map<String, Object> getConsumeInfo(int pageNum, int PageSize, Long uid, String startTime,
+                                                         String endTime, String cid,
+                                              String username);
     public Long getConsumeNumber();
 }

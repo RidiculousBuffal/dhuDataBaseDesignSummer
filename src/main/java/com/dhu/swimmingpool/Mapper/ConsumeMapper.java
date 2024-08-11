@@ -19,7 +19,7 @@ public interface ConsumeMapper {
     public boolean addConsumeRecord(Consume consume);
 
     public ArrayList<Map<String, Object>> getConsumeInfo(Long uid,String cid, Timestamp startTime,
-                                                         Timestamp endTime);
+                                                         Timestamp endTime,String username);
 
     @Select("select count(*) from consume")
     public Long getConsumeCount();

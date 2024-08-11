@@ -81,3 +81,13 @@ export const setStatus = async (cid, status) => {
     })
     return resp;
 }
+export const queryBlockCards = async (PageNum,PageSize,cid,username)=>{
+    const url = `/blockList/getInfo?PageNum=${PageNum}&PageSize=${PageSize}&cid=${cid}&username=${username} `
+    const tmpStore = userTokenStore();
+    const resp = await ins.post(url, null, {
+        headers: {
+            Authorization: tmpStore.token
+        }
+    })
+    return resp;
+}

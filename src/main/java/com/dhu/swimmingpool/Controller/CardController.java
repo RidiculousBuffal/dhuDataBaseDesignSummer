@@ -73,9 +73,15 @@ public class CardController {
 
     @PostMapping("/consumeMoney")
     //默认传进来的金额是正的
-    public Result consumeMoney(@RequestParam Long userId, @RequestParam String CID,
+    public Result consumeMoney(@RequestParam(required = false) Long userId,
+                               @RequestParam(required = false) String username,
+                               @RequestParam String CID,
                                @RequestParam double Money,
                                @RequestParam(required = false, defaultValue = "普通消费") String description) {
+
+        if(userId==null){
+            userId = userService.getIdByUserName(username);
+        }
         ArrayList<Map<String, Object>> cardInfo = cardService.getCardInfo(userId, CID);
         Double discount = (Double) cardInfo.get(0).get("Discount");
         //消费
@@ -167,4 +173,5 @@ public class CardController {
             return Result.error("更新失败");
         }
     }
+
 }

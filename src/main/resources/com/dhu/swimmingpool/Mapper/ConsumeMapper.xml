@@ -10,12 +10,14 @@
         consume.description,
         consume.currentBalance,
         user.UID,
-        user.UNAME
+        user.UNAME,
+        card.Status,
+        sys_user_login.UserName
         from consume,
         sys_user_login,
-        user
+        user,card
         where user.UID = sys_user_login.UID
-        and user.UID = consume.UID
+        and user.UID = consume.UID and card.CID = consume.CID
         <if test="uid!=null">
             and user.UID = #{uid}
         </if>
@@ -25,8 +27,12 @@
         <if test="startTime!=null">
             and CreateTime &gt; #{startTime}
         </if>
-        <if test="cid!=null">
-            and CID = #{cid}
+        <if test="cid!=null and cid !=''">
+            and consume.CID = #{cid}
         </if>
+        <if test="username!=null and username != ''">
+            and UserName = #{username}
+        </if>
+        order by consume.CreateTime
     </select>
 </mapper>

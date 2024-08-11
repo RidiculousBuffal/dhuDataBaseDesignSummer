@@ -19,10 +19,11 @@ public class ConsumeController {
                                  @RequestParam(required = false) Long uid,
                                  @RequestParam(required = false) String cid,
                                  @RequestParam(required = false) String startTime,
-                                 @RequestParam(required = false) String endTime) {
+                                 @RequestParam(required = false) String endTime,
+                                 @RequestParam(required = false) String username) {
         return Result.success(
             consumeService.getConsumeInfo
-                (pageNum, PageSize, uid, startTime, endTime, cid)
+                (pageNum, PageSize, uid, startTime, endTime, cid,username)
         );
     }
     @PostMapping("/getConsumeCount")
