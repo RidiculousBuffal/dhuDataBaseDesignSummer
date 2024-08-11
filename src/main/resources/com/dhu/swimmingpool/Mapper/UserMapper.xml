@@ -5,21 +5,23 @@
 <mapper namespace="com.dhu.swimmingpool.Mapper.UserMapper">
     <update id="updateUserInfo">
         update user
-        <if test="uname!=null and uname!=''">
-            set uname = #{uname}
-        </if>
-        <if test="uphone!=null and uphone!=''">
-            ,UPHONE=#{uphone}
-        </if>
-        <if test="uidentity!=null and uidentity!=''">
-            ,UIDENTITY=#{uidentity}
-        </if>
-        <if test="uavatar!=null and uavatar!=''">
-            ,UAVATAR=#{uavatar}
-        </if>
-        <if test="uDescription!=null and uDescription!=''">
-            ,UDescription=#{uDescription}
-        </if>
+        <set>
+            <if test="uname!=null and uname!=''">
+                uname = #{uname},
+            </if>
+            <if test="uphone!=null and uphone!=''">
+                UPHONE = #{uphone},
+            </if>
+            <if test="uidentity!=null and uidentity!=''">
+                UIDENTITY = #{uidentity},
+            </if>
+            <if test="uavatar!=null and uavatar!=''">
+                UAVATAR = #{uavatar},
+            </if>
+            <if test="uDescription!=null and uDescription!=''">
+                UDescription = #{uDescription},
+            </if>
+        </set>
         where UID = #{uid}
     </update>
     <select id="queryUserInfo" resultType="Map">
