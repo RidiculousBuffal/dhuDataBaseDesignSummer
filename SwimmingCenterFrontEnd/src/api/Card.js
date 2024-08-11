@@ -61,6 +61,16 @@ export const addMoney = async (userId, CID, Money, Description) => {
     })
     return resp;
 }
+export const consumeMoney = async (userId, CID, Money, Description) => {
+    const url = `/card/consumeMoney?userId=${userId}&CID=${CID}&Money=${Money}&description=${Description}`
+    const tmpStore = userTokenStore();
+    const resp = await ins.post(url, null, {
+        headers: {
+            Authorization: tmpStore.token
+        }
+    })
+    return resp;
+}
 export const BlockCard = async (data) => {
     const tmpStore = userTokenStore();
     const resp = await ins.post("/card/blockcard", data, {
@@ -83,6 +93,16 @@ export const setStatus = async (cid, status) => {
 }
 export const queryBlockCards = async (PageNum,PageSize,cid,username)=>{
     const url = `/blockList/getInfo?PageNum=${PageNum}&PageSize=${PageSize}&cid=${cid}&username=${username} `
+    const tmpStore = userTokenStore();
+    const resp = await ins.post(url, null, {
+        headers: {
+            Authorization: tmpStore.token
+        }
+    })
+    return resp;
+}
+export const getUserCardPrefix= async (username,prefix)=>{
+    const url = `/card/userGetCidByPrefix?Prefix=${prefix}&username=${username}`
     const tmpStore = userTokenStore();
     const resp = await ins.post(url, null, {
         headers: {

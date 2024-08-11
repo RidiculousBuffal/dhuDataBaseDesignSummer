@@ -41,4 +41,9 @@ public interface CardMapper {
 
     @Update("update card set tid = #{tid},Discount=#{discount} where CID=#{cid}")
     public boolean  updateTidAndDiscount(String cid,Integer tid,double discount);
+
+    @Select("select card.CID from card,sys_user_login where CID like CONCAT(#{prefix},'%') and " +
+        "UserName = #{username} and sys_user_login.UID = card.UID" +
+        " limit 5")
+    public ArrayList<String> userGetCidByPrefix(String prefix,String username);
 }

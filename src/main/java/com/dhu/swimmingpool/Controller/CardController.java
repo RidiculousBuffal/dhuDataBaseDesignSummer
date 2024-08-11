@@ -173,5 +173,8 @@ public class CardController {
             return Result.error("更新失败");
         }
     }
-
+    @PostMapping("/userGetCidByPrefix")
+    public Result userGetCidByPrefix (String Prefix,String username){
+        return Result.success(cardService.userGetCidByPrefix(Prefix,username));
+    }
 }

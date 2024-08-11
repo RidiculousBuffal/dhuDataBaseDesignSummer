@@ -69,4 +69,9 @@ public class CardServiceImpl implements CardService {
     public boolean updateTidAndDiscount(String cid, Integer tid, double discount) {
         return cardMapper.updateTidAndDiscount(cid,tid,discount);
     }
+
+    @Override
+    public ArrayList<String> userGetCidByPrefix(String prefix, String username) {
+        return cardMapper.userGetCidByPrefix(prefix,username);
+    }
 }

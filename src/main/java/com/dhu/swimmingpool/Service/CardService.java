@@ -26,4 +26,5 @@ public interface CardService {
                                                                      ArrayList<Integer> tids);
 
     public boolean  updateTidAndDiscount(String cid,Integer tid,double discount);
+    public ArrayList<String> userGetCidByPrefix(String prefix,String username);
 }
