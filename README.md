@@ -1,7 +1,26 @@
-# About the Project
-Here is the main repository of a Swimming Pool Management System,Summer job assigned by DongHua university
-# Functionality
-- to be added
-# Contributor
-- to be added
--
+# 项目介绍
+> 本项目为 **东华大学软件工程专业大二下数据库原理课程设计**的暑假小组任务,要求是建立一个游泳馆管理系统,具体要求如下:
+
+一个会员制的游泳馆希望通过计算机实现会员管理。系统主要功能如下：
+-	售卡管理：销售会员卡时要输入卡号、金额、折扣、类型（储值卡、折扣卡）以及持卡人基本资料（姓名、电话、证件号等）等信息，这些信息记录到会员资料中。
+-	会员资料管理：查询和修改会员资料（其中卡号和金额不能修改）。可按照卡号、持卡人姓名查询信息。
+-	存款管理：如果会员卡类别是储值卡，可根据卡号进行预存款操作。
+-	退卡管理：执行退卡操作后该卡不可再使用，但保留该卡以前的消费记录。
+-	会员禁用：用来挂失或是停止会员卡的使用（记录禁用的原因），实现对会员卡的安全管理可以通过解禁功能恢复会员卡的正常使用。
+-	消费管理：记录会员的消费情况，可以查看会员的消费金额，存款金额、结存余额，可以查询任何一段时间内该卡的消费情况，也可以查询所有会员卡的汇总记录。
+-	系统管理：包括参数设置、权限设置、更改密码等。
+# 功能实现
+``java``代码在``src/main/java/com.dhu.swimmingpool``目录下  
+```vue,js```代码在 ``swimmingCenterFrontend``下
+
+# 启动
+在``src/main/java/com.dhu.swimmingpool/resources``下添加``Cos.yml``,配置参数如下:
+```yaml
+cos:
+  SecretId: Tecent Cos SecretId
+  SecretKey: Tecent Cos SecretId
+  Region : Tecent Cos Region
+  FilePath : Local TMP FILE PATH
+
+
+```
