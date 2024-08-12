@@ -243,7 +243,12 @@ const AddMoneyForm = ref({
   Description: "普通存钱"
 })
 const openAddMoneyDialog = (row) => {
-
+  AddMoneyForm.value={
+    userId: UserData.UID,
+    CID: undefined,
+    Money: undefined,
+    Description: "普通存钱"
+  }
   AddMoneyForm.value.CID = row.CID;
   AddMoneyDialog.value = true;
   console.log(AddMoneyForm.value)
@@ -290,7 +295,13 @@ const consumeMoneyFunc = async () => {
 }
 const ConsumeMoneyDialog = ref(false)
 const openConsumeMoneyDialog = (row) => {
-
+  AddMoneyForm.value={
+    userId: UserData.UID,
+    CID: undefined,
+    Money: 50,
+    Description: "普通存钱"
+  }
+  updateMoneyAndDescription(selectedOption.value)
   AddMoneyForm.value.CID = row.CID;
   ConsumeMoneyDialog.value = true;
 }
